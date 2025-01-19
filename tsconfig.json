@@ -8,6 +8,8 @@
     "module": "node16",
     "target": "es2022",
     "strict": true,
+    "outDir":"./dist",
+    "rootDir":"./src",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "moduleResolution": "node16"
