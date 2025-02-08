@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "engines": {
-    "node":"20"
+    "node": "20"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -15,6 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fastify/cors": "^10.0.2",
     "@fastify/jwt": "^9.0.2",
     "@prisma/client": "^6.2.0",
     "bcrypt": "^5.1.1",

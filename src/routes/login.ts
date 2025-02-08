@@ -23,7 +23,7 @@ export function login(app: FastifyInstance) {
         const isPassword = await verifyPassword(password,existeUser.password);
 
         if (!isPassword) {
-            return res.status(400).send({ message: "Incorrect password" });
+            return res.status(400).send({ message: "Senha Incorreta!!" });
         }
         
 
