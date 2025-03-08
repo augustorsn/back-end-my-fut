@@ -1,0 +1,6 @@
+-- CreateTable
+CREATE TABLE "Sorteio" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "resultado" TEXT NOT NULL,
+    "data" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

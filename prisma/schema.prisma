@@ -25,3 +25,9 @@ model Guest{
   id String @id @default(cuid())
   name String @unique
 }
+
+model Sorteio{
+  id String @id @default(cuid())
+  resultado String
+  data DateTime @default(now()) 
+}

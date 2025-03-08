@@ -87,10 +87,13 @@ export function sorteio(app: FastifyInstance) {
         }
     }
 
-   
-      
-       
+    let resultado = JSON.stringify({ team1: playersTeamOne , team2: playersTeamTwo, team3: playersTeamThree, team4: playersTeamFour});
+    const user = await prisma.sorteio.create({
+        data: {
+           resultado: resultado
+        }
+    });
 
-        return  res.status(201).send({ team1: playersTeamOne , team2: playersTeamTwo, team3: playersTeamThree, team4: playersTeamFour});;
+        return  res.status(201).send({ team1: playersTeamOne , team2: playersTeamTwo, team3: playersTeamThree, team4: playersTeamFour});
     })
 }
