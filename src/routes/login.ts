@@ -20,14 +20,17 @@ export function login(app: FastifyInstance) {
             return res.status(400).send({ message: "User not found" });
         }
 
-        const isPassword = await verifyPassword(password,existeUser.password);
+        const isPassword = await verifyPassword(password, existeUser.password);
 
         if (!isPassword) {
             return res.status(400).send({ message: "Senha Incorreta!!" });
         }
-        
 
-        const token = app.jwt.sign({id:existeUser.id,email: existeUser.email})
-        return res.status(200).send({token});
+
+        const token = app.jwt.sign({ id: existeUser.id, email: existeUser.email })
+        return res.status(200).send({ token });
     });
+
+
+   
 }
