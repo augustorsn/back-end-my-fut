@@ -1,16 +1,45 @@
-import { FastifyInstance } from "fastify";
+import axios from "axios";
+import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { prisma } from "../lib/prisma";
 
 export function sorteio(app: FastifyInstance) {
 
-    app.addHook("onRequest", async (req, res) => {
+    // app.addHook("onRequest", async (req, res) => {
+    //     try {
+    //         await req.jwtVerify();
+
+    //     } catch (error) {
+    //         return res.status(401).send({ error });
+    //     }
+
+    // });
+
+    app.addHook("onRequest", async (req: FastifyRequest, res: FastifyReply) => {
         try {
-            await req.jwtVerify();
+            let token = req.headers.authorization;
+            console.log("token1 =>" + token);
+            if (token && token.startsWith("Bearer ")) {
+                token = token.split(" ")[1]; // Pegando somente o token (após "Bearer ")
+            }
+        
 
+            console.log("token2 =>" + token);
+            if (!token) {
+                return res.status(401).send({ error: "Autenticação falhou" });
+            }
+
+            console.log("token3 =>" + token);
+           
+            const { data } = await axios.get("https://www.googleapis.com/oauth2/v2/userinfo", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            
         } catch (error) {
-            return res.status(401).send({ error });
+            return res.status(401).send({ error: "Autenticação falhou" });
         }
-
     });
 
     app.get("/sorteio", async (req, res) => {

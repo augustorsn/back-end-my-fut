@@ -1,6 +1,7 @@
 import fastifyOauth2 from "@fastify/oauth2";
 import axios from "axios";
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
+import z from "zod";
 
 // Interface para armazenar os dados do usuário autenticado
 interface GoogleUser {
@@ -10,6 +11,12 @@ interface GoogleUser {
     picture: string;
     token: string;
 }
+
+
+    const createTokenSchema = z.object({
+        access_token: z.string()
+    })
+
 
 async function revokeToken(token: string, tokenType: string, clientId?: string): Promise<void> {
     try {
@@ -77,10 +84,12 @@ export function setupAuth(app: FastifyInstance) {
 
 
         // Rota de logout que limpa o cookie de sessão
-        app.get("/logout", async (request: FastifyRequest, reply: FastifyReply) => {
+        app.post("/logout", async (request: FastifyRequest, reply: FastifyReply) => {
+        
             try {
-              
-
+            
+                const { access_token } = createTokenSchema.parse(request.body);
+                    console.log('ai =' + access_token)
 
                 reply.clearCookie("session_token", {
                     path: "/",
@@ -89,7 +98,7 @@ export function setupAuth(app: FastifyInstance) {
                 });
 
                 
-                let token = "ya29.a0AeXRPp4_kQ9eORm7xq3KitXKFcu4LOYbmQ96rH3i-rudwLtHcPjmgorquavboYMxXB6Lf88JvQRhTGnCQw09FT2Ad2sAiYLBE3TuEpMOXiOHGAw1XAWPrVnqSwtNojh_AZ3X6WsFgcfLHFAtf9qRq9wOQW4lMbtrHTlJsHCoaCgYKAUoSARMSFQHGX2Mig1l5Anx3EJsOQNnEo0_sJA0175";
+                let token = access_token;
                 await revokeToken(token,"access_token",process.env.GOOGLE_CLIENT_ID);
                 reply.send({ message: "Logout realizado com sucesso!" });
             
